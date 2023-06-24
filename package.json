@@ -1,0 +1,33 @@
+{
+  "name": "book-catalog-backend",
+  "version": "1.0.0",
+  "description": "backend API for book catalouge, implementing CRUD operations",
+  "main": "index.cjs",
+  "scripts": {
+    "test": "npm test",
+    "start": "nodemon index.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChathuVithanage/book-catalog-backend.git"
+  },
+  "keywords": [
+    "book",
+    "catalogue",
+    "books",
+    "author"
+  ],
+  "author": "Chathu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChathuVithanage/book-catalog-backend/issues"
+  },
+  "homepage": "https://github.com/ChathuVithanage/book-catalog-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
