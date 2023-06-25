@@ -5,7 +5,8 @@
   "main": "index.cjs",
   "scripts": {
     "test": "npm test",
-    "start": "nodemon index.cjs"
+    "start": "nodemon index.cjs",
+    "prerun": "sudo kill -9 $(sudo lsof -t -i:3600)"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/ChathuVithanage/book-catalog-backend#readme",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mysql": "^2.18.1"
