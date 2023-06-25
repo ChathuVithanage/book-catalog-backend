@@ -18,40 +18,41 @@ const PORT = 3600;
 
 // query strings
 const createTable =
-  "CREATE TABLE Books (ISBN varchar(13) NOT NULL, name VARCHAR(255), author VARCHAR(255), category varchar(255), description TEXT, price DOUBLE, PRIMARY KEY(ISBN));";
+  "CREATE TABLE IF NOT EXISTS Books (ISBN varchar(13) NOT NULL, name VARCHAR(255), author VARCHAR(255), category varchar(255), description TEXT, price DOUBLE, PRIMARY KEY(ISBN));";
 
 const getAll = "SELECT * FROM Books;";
-
-const updateBook = "UPDATE Books SET price=? WHERE ISBN=?;"
-const deleteBook = ""
+const saveBook = "INSERT INTO Books VALUES (?, ?, ?, ?, ?, ?)";
+const updateBook = "UPDATE Books SET price=? WHERE ISBN=?;";
+const deleteBook = "DELETE FROM Books WHERE ISBN=?;";
 
 app.post("/save", (req, res) => {
   // grab the json
   let { name, author, category, description, price } = req.body;
-  let addBook = `INSERT INTO Books VALUES (${Date.now()}, ${name}, ${author}, ${category}, ${description}, ${price});`;
-   con.query(addBook, (err, result) => {
-     if (err) {
-      res.send("An Error has occured :" + err);
-      throw err
-     }else {
-      res.status(200);
-      res.send("Data saved successfully : " + result.message)
-     }
-   });
-  
-  
+  con.query(
+    saveBook,
+    [Date.now(), name, author, category, description, price],
+    (err, result) => {
+      if (err) {
+        res.send("An Error has occured :" + err);
+        throw err;
+      } else {
+        res.status(200);
+        res.send("Data saved successfully : " + result.message);
+      }
+    }
+  );
 });
 
 app.get("/getAll", (req, res) => {
-   con.query(getAll, (err, result, fields) => {
-     if (err) {
-       res.send("An Error has occured :" + err);
-       throw err;
-     } else {
-       res.status(200);
-       res.json(fields)
-     }
-   });
+  con.query(getAll, (err, result, fields) => {
+    if (err) {
+      res.send("An Error has occured :" + err);
+      throw err;
+    } else {
+      res.status(200);
+      res.json(fields);
+    }
+  });
 });
 
 // app.get("/get", (req, res) => {
@@ -60,8 +61,8 @@ app.get("/getAll", (req, res) => {
 // });
 
 app.put("/update/:id", (req, res) => {
-  let price = req.query.price
-  con.query(updateBook, [price,id],(err, result) => {
+  let price = req.query.price;
+  con.query(updateBook, [price, id], (err, result) => {
     if (err) {
       res.send("An Error has occured :" + err);
       throw err;
@@ -73,7 +74,7 @@ app.put("/update/:id", (req, res) => {
 });
 
 app.delete("/delete/:id", (req, res) => {
-  con.query(updateBook, [price, id], (err, result) => {
+  con.query(deleteBook, [id], (err, result) => {
     if (err) {
       res.send("An Error has occured :" + err);
       throw err;
