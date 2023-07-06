@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-var mysql = require("mysql");
+var mysql = require("mysql2");
 
 const app = express();
 var con = mysql.createConnection({
@@ -57,10 +57,6 @@ app.get("/getAll", (req, res) => {
   });
 });
 
-// app.get("/get", (req, res) => {
-//   res.status(200);
-//   res.send("Welcome to root URL of Server");
-// });
 
 app.put("/update/:id", (req, res) => {
   let price = req.query.price;
@@ -103,18 +99,14 @@ app.listen(PORT, (error) => {
         function (err, result) {
           if (err) throw err;
           console.log("Result: " + result.message);
-          console.dir(result);
         }
       );
       // creating table for books
       con.query(createTable, (err, result) => {
         if (err) throw err;
         console.log("Result: " + result.message);
-        console.dir(result);
       });
     });
   } else console.log("Error occurred, server can't start", error);
 });
 
-// JSON FOR BOOKS
-// { ISBN, Name, Author, Category, description, price}
